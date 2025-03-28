@@ -8,8 +8,8 @@ class EditProductScreen extends StatefulWidget {
   final String productDescription;
   final double productPrice;
 
-  EditProductScreen({
-    required this.productId,
+  EditProductScreen({ //การรับข้อมูลจากหน้าอื่น
+    required this.productId, //เมื่อ EditProductScreen ถูกสร้างขึ้น จะมีการรับค่า 4 ตัวแปรผ่าน Constructor คือ productId, productName, productDescription, และ productPrice. ข้อมูลเหล่านี้จะถูกใช้ในการตั้งค่าพื้นฐานของฟอร์มที่ให้ผู้ใช้แก้ไข.
     required this.productName,
     required this.productDescription,
     required this.productPrice,
@@ -20,12 +20,12 @@ class EditProductScreen extends StatefulWidget {
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController(); //ควบคุมการกรอกข้อมูลใน TextField ที่เกี่ยวข้องกับชื่อสินค้า, คำอธิบายสินค้า, และราคาสินค้า.
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
   @override
-  void initState() {
+  void initState() { //ในฟังก์ชัน initState(), ค่าเริ่มต้นที่ถูกส่งมาจากหน้าก่อนจะถูกตั้งใน TextEditingController เพื่อให้ TextField แสดงค่าที่มีอยู่แล้ว. เช่น ค่าเริ่มต้นของชื่อ, คำอธิบาย, และราคา.
     super.initState();
     nameController.text = widget.productName;
     descriptionController.text = widget.productDescription;
@@ -35,7 +35,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Future<void> updateProduct() async {
     try {
       var response = await http.put(
-        Uri.parse("http://10.0.2.2:8001/products/${widget.productId}"),
+        Uri.parse("http://localhost:3000/products/${widget.productId}"),
         headers: {
           "Content-Type": "application/json",
         },

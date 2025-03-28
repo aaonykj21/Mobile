@@ -28,7 +28,7 @@ class _SimpleApiCallState extends State<SimpleApiCall> {
     // await Future.delayed(Duration(seconds: 4)); // Change Duration to Future.delayed
     try {
       var response = await http
-          .get(Uri.parse('https://api.waqi.info/feed/here/?token=4f8aaec483f0d430baa394d2a6b91309f5df874f'));
+          .get(Uri.parse('https://jsonplaceholder.typicode.com/users'));
 
       if (response.statusCode == 200) {
         List<dynamic> jsonList = jsonDecode(response.body);

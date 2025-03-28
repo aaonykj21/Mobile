@@ -8,30 +8,30 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController(); //TextEditingController ใช้เก็บค่าที่ผู้ใช้ป้อนใน TextField
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
-bool _isDisposed = false;
+bool _isDisposed = false; //_isDisposed ใช้ป้องกันข้อผิดพลาดหาก Widget ถูกทำลายก่อนการใช้งาน
 
 @override
 void dispose() {
-  _isDisposed = true; 
+  _isDisposed = true; ///กำหนดให้ _isDisposed = true เพื่อป้องกันการอ้างอิง UI ที่ถูกทำลายไปแล้ว
   nameController.dispose();
   descriptionController.dispose();
-  priceController.dispose();
+  priceController.dispose(); //.dispose() ใช้ล้างข้อมูลของ TextEditingController ป้องกันหน่วยความจำรั่ว (Memory Leak)
   super.dispose();
 }
 
  Future<void> createProduct() async {
   try {
-    var response = await http.post(
-      Uri.parse("http://10.0.2.2:8001/products"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "name": nameController.text.trim(),
+    var response = await http.post( //ใช้ http.post() ส่งข้อมูลสินค้าไปยังเซิร์ฟเวอร์
+      Uri.parse("http://localhost:3000/products"),
+      headers: {"Content-Type": "application/json"}, //ระบุว่าเป็น JSON
+      body: jsonEncode({ //jsonEncode({}) ใช้แปลงข้อมูลเป็น JSON
+        "name": nameController.text.trim(), //ใช้ trim() ตัดช่องว่างหน้าหลังข้อความ
         "description": descriptionController.text.trim(),
-        "price": double.tryParse(priceController.text) ?? 0.0,
+        "price": double.tryParse(priceController.text) ?? 0.0, //ใช้ double.tryParse() แปลงราคาจาก String เป็น double (หากแปลงไม่ได้ให้เป็น 0.0)
       }),
     );
 
@@ -45,7 +45,7 @@ void dispose() {
           duration: Duration(seconds: 2),
         ),
       );
-      Navigator.pop(context, true);
+      Navigator.pop(context, true); //เพื่อปิดหน้าปัจจุบันและส่งค่ากลับ
     } else {
       throw Exception("Failed to add product");
     }
@@ -119,7 +119,7 @@ void dispose() {
             SizedBox(height: 10,),
             TextField(
               controller: priceController,
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.number, //เพื่อให้แสดงคีย์บอร์ดตัวเลข
               decoration: InputDecoration(
                 labelText: "Enter Product Price",
                 border: OutlineInputBorder(
@@ -137,7 +137,7 @@ void dispose() {
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            ElevatedButton( //ใช้ ElevatedButton เมื่อกดปุ่มจะเรียก createProduct()
               onPressed: createProduct,
               child: Text("AddProduct"),
             ),

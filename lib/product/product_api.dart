@@ -12,27 +12,27 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> {
-  List<dynamic> products = [];
+  List<dynamic> products = []; //products เป็น List ของสินค้า ที่มาจาก API
 
   Future<void> fetchData() async {
     try {
-      var response = await http.get(Uri.parse('http://10.0.2.2:8001/products'));
-      if (response.statusCode == 200) {
+      var response = await http.get(Uri.parse('http://localhost:3000/products')); //ใช้ http.get() เพื่อเรียก API
+      if (response.statusCode == 200) { //ถ้าสำเร็จ (statusCode == 200) → แปลง JSON เป็น List<dynamic>
         List<dynamic> jsonList = jsonDecode(response.body);
-        setState(() {
+        setState(() { //ใช้ setState() เพื่ออัปเดต products และรีเฟรช UI
           products = jsonList;
         });
       } else {
         throw Exception("Failed to load products");
       }
-    } catch (e) {
+    } catch (e) { //ถ้าเกิดข้อผิดพลาด → catch (e) จะจับ error และพิมพ์ออกมาใน console
       print(e);
     }
   }
 
   @override
   void initState() {
-    super.initState();
+    super.initState(); //initState() → ทำงานแค่ ครั้งเดียวตอนเปิดหน้า เพื่อโหลดข้อมูลสินค้า
     fetchData(); // เรียกเมื่อเริ่มต้นหน้า
   }
 
@@ -40,9 +40,8 @@ class _ProductState extends State<Product> {
 
   Future<void> deleteProduct({dynamic idDelete = "44b7"}) async {
     try {
-      var response = await http
-          .delete(Uri.parse("http://10.0.2.2:8001/products/$idDelete"));
-      if (response.statusCode == 200) {
+      var response = await http.delete(Uri.parse("http://localhost:3000/products/$idDelete")); //ใช้ http.delete() เพื่อลบสินค้าตาม id
+      if (response.statusCode == 200) { //ถ้าสำเร็จ (statusCode == 200) → แสดง SnackBar แจ้งว่าลบสำเร็จ
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Deleted successfully!"),
@@ -51,7 +50,7 @@ class _ProductState extends State<Product> {
           ),
         );
       } else {
-        throw Exception("Failed to delete products");
+        throw Exception("Failed to delete products"); //ถ้าลบไม่สำเร็จ → throw Exception()
       }
     } catch (e) {
       print(e);
@@ -70,11 +69,12 @@ class _ProductState extends State<Product> {
         itemCount: products.length,
         itemBuilder: (context, index) {
           var product = products[index];
+
           return ListTile(
-            leading: Text(product['id'].toString()),
-            title: Text(product['name']),
-            subtitle: Text(product['description']),
-            trailing: Row(
+            leading: Text(product['id'].toString()), //leading: แสดง ID ของสินค้า
+            title: Text(product['name']), //title: ชื่อสินค้า
+            subtitle: Text(product['description']), //subtitle: คำอธิบายสินค้า
+            trailing: Row( //trailing: แสดงราคา พร้อมปุ่ม แก้ไข (edit) และ ลบ (delete) (trailing: ใช้สำหรับแสดง Widget ที่อยู่ทางขวาสุด ของรายการแต่ละอัน)
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
@@ -108,8 +108,8 @@ class _ProductState extends State<Product> {
                 ),
                 IconButton(
                   onPressed: () async {
-                    await deleteProduct(idDelete: product['id']);
-                    await fetchData();
+                    await deleteProduct(idDelete: product['id']); //กดปุ่ม delete → เรียก deleteProduct()
+                    await fetchData(); //ถ้าลบสำเร็จ → โหลดข้อมูลใหม่ (fetchData())
                   },
                   icon: Icon(
                     Icons.delete,
@@ -126,11 +126,11 @@ class _ProductState extends State<Product> {
         onPressed: () async {
           bool? isProductAdded = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddProductScreen()),
+            MaterialPageRoute(builder: (context) => AddProductScreen()), //กดปุ่ม + → ไปหน้า AddProductScreen
           );
 
           if (isProductAdded == true) {
-            await fetchData();
+            await fetchData(); //ถ้าเพิ่มสินค้าสำเร็จ (isProductAdded == true) → โหลดข้อมูลใหม่ (fetchData())
           }
         },
         backgroundColor: const Color.fromARGB(255, 248, 156, 223),
