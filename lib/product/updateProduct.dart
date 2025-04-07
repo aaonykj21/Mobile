@@ -35,7 +35,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Future<void> updateProduct() async {
     try {
       var response = await http.put(
-        Uri.parse("http://localhost:3000/products/${widget.productId}"),
+        Uri.parse("http://10.0.2.2:3000/products/${widget.productId}"),
         headers: {
           "Content-Type": "application/json",
         },

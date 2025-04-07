@@ -16,7 +16,7 @@ class _ProductState extends State<Product> {
 
   Future<void> fetchData() async {
     try {
-      var response = await http.get(Uri.parse('http://localhost:3000/products')); //ใช้ http.get() เพื่อเรียก API
+      var response = await http.get(Uri.parse('http://10.0.2.2:3000/products')); //ใช้ http.get() เพื่อเรียก API
       if (response.statusCode == 200) { //ถ้าสำเร็จ (statusCode == 200) → แปลง JSON เป็น List<dynamic>
         List<dynamic> jsonList = jsonDecode(response.body);
         setState(() { //ใช้ setState() เพื่ออัปเดต products และรีเฟรช UI
@@ -40,7 +40,7 @@ class _ProductState extends State<Product> {
 
   Future<void> deleteProduct({dynamic idDelete = "44b7"}) async {
     try {
-      var response = await http.delete(Uri.parse("http://localhost:3000/products/$idDelete")); //ใช้ http.delete() เพื่อลบสินค้าตาม id
+      var response = await http.delete(Uri.parse("http://10.0.2.2:3000/products/$idDelete")); //ใช้ http.delete() เพื่อลบสินค้าตาม id
       if (response.statusCode == 200) { //ถ้าสำเร็จ (statusCode == 200) → แสดง SnackBar แจ้งว่าลบสำเร็จ
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

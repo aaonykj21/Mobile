@@ -26,7 +26,7 @@ void dispose() {
  Future<void> createProduct() async {
   try {
     var response = await http.post( //ใช้ http.post() ส่งข้อมูลสินค้าไปยังเซิร์ฟเวอร์
-      Uri.parse("http://localhost:3000/products"),
+      Uri.parse("http://10.0.2.2:3000/products"),
       headers: {"Content-Type": "application/json"}, //ระบุว่าเป็น JSON
       body: jsonEncode({ //jsonEncode({}) ใช้แปลงข้อมูลเป็น JSON
         "name": nameController.text.trim(), //ใช้ trim() ตัดช่องว่างหน้าหลังข้อความ

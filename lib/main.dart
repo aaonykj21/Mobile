@@ -2,6 +2,7 @@
 // import 'package:demoproject/Homework2/air_quality.dart';
 // import 'package:demoproject/fire_store/fire_store_demo.dart';
 import 'package:demoproject/Profile/ProfileCard.dart';
+import 'package:demoproject/product/product_api.dart';
 // import 'package:demoproject/Profile/ProfileCard.dart';
 // import 'package:demoproject/component/custom_card.dart';
 // import 'package:demoproject/component/custom_card.dart';
@@ -40,21 +41,22 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return   MaterialApp(
         title: 'ThemeMode Demo',
-        theme: ThemeData.light().copyWith(
-          scaffoldBackgroundColor: Colors.white,
-          textTheme:
-              const TextTheme(bodyMedium: TextStyle(color: Colors.black)),
-          appBarTheme: const AppBarTheme(
-              backgroundColor: Color.fromARGB(255, 206, 181, 249)),
-        ),
-        darkTheme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: Colors.blueGrey[900],
-          textTheme:
-              const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
-          appBarTheme: AppBarTheme(backgroundColor: Colors.grey[800]),
-        ),
-        themeMode: _themeMode,
-        home:  MyWidget(toggleTheme: _toggleTheme, themeMode: _themeMode),
+        // theme: ThemeData.light().copyWith(
+        //   scaffoldBackgroundColor: Colors.white,
+        //   textTheme:
+        //       const TextTheme(bodyMedium: TextStyle(color: Colors.black)),
+        //   appBarTheme: const AppBarTheme(
+        //       backgroundColor: Color.fromARGB(255, 206, 181, 249)),
+        // ),
+        // darkTheme: ThemeData.dark().copyWith(
+        //   scaffoldBackgroundColor: Colors.blueGrey[900],
+        //   textTheme:
+        //       const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+        //   appBarTheme: AppBarTheme(backgroundColor: Colors.grey[800]),
+        // ),
+        // themeMode: _themeMode,
+        // home:  MyWidget(toggleTheme: _toggleTheme, themeMode: _themeMode),
+        home: Product()
         );
   }
 }
